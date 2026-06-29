@@ -163,7 +163,7 @@ export const Register: React.FC = () => {
         </button>
 
         <p className="text-center text-xs font-semibold text-zinc-500 pt-2">
-          Already have an account? <a href="/auth/login" className="text-violet-600 hover:underline transition-colors">Sign In</a>
+          Already have an account? <a href="/auth/login" onClick={(e) => { e.preventDefault(); router.push('/auth/login'); }} className="text-violet-600 hover:underline transition-colors">Sign In</a>
         </p>
       </form>
     </div>
