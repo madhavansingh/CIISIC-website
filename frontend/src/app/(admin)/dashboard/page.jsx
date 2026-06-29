@@ -1,11 +1,19 @@
-// @next
+'use client';
+
 import dynamic from 'next/dynamic';
+import useAuth from '@/hooks/useAuth';
 
-// @project
-const DashboardPage = dynamic(() => import('@/views/admin/dashboard'));
+const AdminDashboard = dynamic(() => import('@/views/admin/dashboard'));
+const StudentDashboard = dynamic(() => import('@/views/student/dashboard'));
 
-/***************************  DASHBOARD PAGE  ***************************/
+/***************************  DASHBOARD SWITCHER  ***************************/
 
 export default function DashboardPages() {
-  return <DashboardPage />;
+  const { role } = useAuth();
+
+  if (role === 'STUDENT') {
+    return <StudentDashboard />;
+  }
+
+  return <AdminDashboard />;
 }

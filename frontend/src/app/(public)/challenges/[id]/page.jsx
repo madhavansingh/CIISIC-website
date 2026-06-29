@@ -1,7 +1,14 @@
+'use client';
+
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { Briefcase, ArrowRight, ShieldCheck, FileText, CheckCircle2, Clock } from 'lucide-react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
+import useAuth from '@/hooks/useAuth';
+
+const StudentChallengeDetails = dynamic(() => import('@/views/student/challenges/details'));
+
 
 const mockChallenges = [
   {
@@ -70,9 +77,16 @@ const mockChallenges = [
   }
 ];
 
-export default async function ChallengeDetailPage(props) {
-  const params = await props.params;
-  const challengeId = params.id?.toLowerCase();
+import { useParams } from 'next/navigation';
+
+export default function ChallengeDetailPage(props) {
+  const { role } = useAuth();
+  const params = useParams();
+  const challengeId = params?.id ? String(params.id).toLowerCase() : '';
+
+  if (role === 'STUDENT') {
+    return <StudentChallengeDetails />;
+  }
 
   const challenge = mockChallenges.find(
     (ch) => ch.id === challengeId

@@ -4,6 +4,10 @@ import React, { useState } from 'react';
 import { cells } from '@/content/cells';
 import { Briefcase, ArrowUpRight, Filter, Search } from 'lucide-react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
+import useAuth from '@/hooks/useAuth';
+
+const StudentChallenges = dynamic(() => import('@/views/student/challenges'));
 
 const mockChallenges = [
   {
@@ -49,8 +53,13 @@ const mockChallenges = [
 ];
 
 export default function ChallengesPage() {
+  const { role } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCell, setSelectedCell] = useState('all');
+
+  if (role === 'STUDENT') {
+    return <StudentChallenges />;
+  }
 
   const filteredChallenges = mockChallenges.filter(ch => {
     const matchesSearch = ch.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
